@@ -1,4 +1,4 @@
-use key_generator::{Key, KeyType};
+use key_generator::keylib::{Key, KeyType};
 
 fn main () {
   let k1 = Key::new(KeyType::AES256);
