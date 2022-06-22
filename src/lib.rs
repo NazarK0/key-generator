@@ -1,38 +1,36 @@
-pub struct Config {
-    query: String,
-    length: i16,
-}
-
-enum KeyType {
+pub enum KeyType<'a> {
     AES256,
-    CustomKey(String, i16),
+    CustomKey(&'a str, i16),
 }
 
-struct Key {
-    value: String,
+pub struct Key<'a> {
+    value: &'a str,
 }
 
-impl Key {
+impl <'a> Key<'a> {
 
-    fn new(key_type: &KeyType) -> Key {
+    pub fn new(key_type: KeyType<'a>) -> Key<'a> {
         match key_type {
             KeyType::AES256 => {
                 Key { 
-                    value: generateAES256()
+                    value: generate_aes256()
                 }
             },
 
             KeyType::CustomKey(characters, len) => {
-                Key { value: generateCustomKey(*characters, *len)}
+                Key { value: generate_custom_key(characters, len)}
             }
         }
     }
+
+    pub fn get(self: &Self) -> &'a str { self.value }
 }
 
-fn generateAES256() -> String {
-    String::from("")
+fn generate_aes256<'a>() -> &'a str {
+    "AES256"
 }
 
-fn generateCustomKey(chars: String, len: i16) -> String {
-    String::from("")
+fn generate_custom_key<'a>(chars: &'a str, len: i16) -> &'a str {
+    println!("len: {} chars: {}", len, chars);
+    "CUSTOM KEY"
 }
