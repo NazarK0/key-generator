@@ -40,7 +40,7 @@ impl<'a> eframe::App for UI<'a> {
             ui.horizontal(|ui| {
               ui.label("Назва:");
 
-              egui::ComboBox::from_label("Тип")
+              egui::ComboBox::from_id_source("")
                   .selected_text(format!("{:?}", self.key_type))
                   .show_ui(ui, |ui| {
                       ui.selectable_value(&mut self.key_type,  KeyType::AES256, "AES256");
