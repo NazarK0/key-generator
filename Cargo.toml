@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 more-asserts = "0.3"
 rand = "0.8"
+eframe = "0.18"

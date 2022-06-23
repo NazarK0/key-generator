@@ -38,8 +38,18 @@ fn generate_aes256() -> String {
 }
 
 fn generate_custom_key(chars: &str, len: u8) -> String {
-    ma::assert_ge!(len, MIN_KEY_LENGTH, "Length must be greater than or equal to {}", MIN_KEY_LENGTH);
-    ma::assert_le!(len, MAX_KEY_LENGTH, "Length must be less than {}", MAX_KEY_LENGTH);
+    ma::assert_ge!(
+        len,
+        MIN_KEY_LENGTH,
+        "Length must be greater than or equal to {}",
+        MIN_KEY_LENGTH
+    );
+    ma::assert_le!(
+        len,
+        MAX_KEY_LENGTH,
+        "Length must be less than {}",
+        MAX_KEY_LENGTH
+    );
 
     let mut hash = String::with_capacity(chars.len());
 
