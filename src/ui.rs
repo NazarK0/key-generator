@@ -1,5 +1,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // hide console window on Windows in release
-use crate::key::{KeyType, Key};
+use crate::key::{Key, KeyType};
 use eframe::egui;
 
 pub fn init() {
@@ -12,8 +12,8 @@ pub fn init() {
 }
 
 struct KeyRow {
-  value: String,
-  title: String,
+    value: String,
+    title: String,
 }
 
 struct UI<'a> {
@@ -27,7 +27,7 @@ impl<'a> Default for UI<'a> {
         Self {
             key_type: KeyType::AES256,
             count: 1,
-            generated_keys: Vec::new()
+            generated_keys: Vec::new(),
         }
     }
 }
@@ -36,68 +36,81 @@ impl<'a> eframe::App for UI<'a> {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         egui::CentralPanel::default().show(ctx, |ui| {
             ui.heading("Генератор");
-            
-            ui.horizontal(|ui| {
-              ui.label("Назва:");
 
-              egui::ComboBox::from_id_source("")
-                  .selected_text(format!("{:?}", self.key_type))
-                  .show_ui(ui, |ui| {
-                      ui.selectable_value(&mut self.key_type,  KeyType::AES256, "AES256");
-                      ui.selectable_value(&mut self.key_type, KeyType::CustomKey("", 4), "Користувацький");
-                  });
+            ui.horizontal(|ui| {
+                ui.label("Назва:");
+
+                egui::ComboBox::from_id_source("")
+                    .selected_text(format!("{:?}", self.key_type))
+                    .show_ui(ui, |ui| {
+                        ui.selectable_value(&mut self.key_type, KeyType::AES256, "AES256");
+                        ui.selectable_value(
+                            &mut self.key_type,
+                            KeyType::CustomKey("", 4),
+                            "Користувацький",
+                        );
+                    });
 
                 ui.add(egui::Slider::new(&mut self.count, 1..=100));
 
                 if ui.button("+1").clicked() {
-                  if self.count < 100 {
-                    self.count += 1;
-                  }
+                    if self.count < 100 {
+                        self.count += 1;
+                    }
                 }
 
                 if ui.button("-1").clicked() {
-                  if self.count > 1 {
-                    self.count -= 1;
-                  }
+                    if self.count > 1 {
+                        self.count -= 1;
+                    }
                 }
 
                 if ui.button("Генерувати").clicked() {
-                  let mut key_rows =  Key::generate(KeyType::AES256, self.count)
-                    .iter()
-                    .map(|key| -> KeyRow {
-                      return KeyRow {
-                        value: key.clone(),
-                        title: String::from("AES256"),
-                      }
-                    })
-                    .collect();
+                    let mut key_rows = Key::generate(KeyType::AES256, self.count)
+                        .iter()
+                        .map(|key| -> KeyRow {
+                            return KeyRow {
+                                value: key.clone(),
+                                title: String::from("AES256"),
+                            };
+                        })
+                        .collect();
 
-                  self.generated_keys.append(&mut key_rows);
+                    self.generated_keys.append(&mut key_rows);
                 }
             });
 
             ui.add_space(25f32);
 
-              egui::ScrollArea::vertical()
+            egui::ScrollArea::vertical()
                 .auto_shrink([false, true])
                 .hscroll(false)
                 .show(ui, |ui| {
-              egui::Grid::new("kdjdkfksllllx").show(ui, |ui| {
-                ui.label("№ з/п");
-                ui.label("Ключ");
-                ui.label("Назва");
-                ui.end_row();
-                 for row in self.generated_keys.iter().enumerate() {
-                  let idx = row.0;
-                  let data = row.1;
-  
-                  ui.label(format!("{}", idx + 1));
-                  ui.selectable_label(false, &data.value);
-                  ui.label(&data.title);
-                  ui.end_row();
-                }
-            });
-            })
+                    egui::Grid::new("key-grid").show(ui, |ui| {
+                        ui.label("№ з/п");
+                        ui.label("Ключ");
+                        ui.label("Назва");
+                        ui.end_row();
+                        
+                        for row in self.generated_keys.iter().enumerate() {
+                            let idx = row.0;
+                            let data = row.1;
+                            
+                            // column 1
+                            ui.label(format!("{}", idx + 1));
+                            
+                            // column 2
+                            let key_widget = ui.selectable_label(false, &data.value);
+                            if key_widget.clicked() {
+                                ui.output().copied_text = String::from(&data.value);
+                            };
+
+                            // column 3
+                            ui.label(&data.title);
+                            ui.end_row();
+                          }
+                    });
+                })
         });
     }
 }
