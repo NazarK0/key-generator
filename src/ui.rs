@@ -4,10 +4,10 @@ use eframe::egui;
 use self::state::State;
 use self::widgets::config_panel;
 
-pub mod key_row;
-pub mod key_types;
-pub mod widgets;
-pub mod state;
+mod key_row;
+mod key_types;
+mod state;
+mod widgets;
 
 pub fn init() {
     let options = eframe::NativeOptions::default();
@@ -24,7 +24,7 @@ struct UI {
 
 impl Default for UI {
     fn default() -> Self {
-      let default_state =  State {
+        let default_state = State {
             key_type_id: 0,
             key_alphabet: String::from("0123456789"),
             key_length: 4,
@@ -33,14 +33,16 @@ impl Default for UI {
             show_config_widgets: false,
         };
 
-      Self { state: default_state }
+        Self {
+            state: default_state,
+        }
     }
 }
 
 impl eframe::App for UI {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         egui::CentralPanel::default().show(ctx, |ui| {
-           config_panel::config_panel(ui, &mut self.state);
+            config_panel::config_panel(ui, &mut self.state);
 
             ui.add_space(25f32);
 
