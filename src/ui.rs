@@ -46,7 +46,7 @@ impl eframe::App for UI {
 
             ui.add_space(25f32);
 
-            widgets::key_table::keys_table(ui, &self.state.generated_keys);
+            widgets::key_table::keys_table(ui, &mut self.state.generated_keys);
         });
     }
 }

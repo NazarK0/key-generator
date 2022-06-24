@@ -51,6 +51,7 @@ pub fn config_panel(ui: &mut Ui, state: &mut State) {
                             return KeyRow {
                                 value: key.clone(),
                                 title: String::from("AES256"),
+                                copied: false,
                             };
                         })
                         .collect();
@@ -66,6 +67,7 @@ pub fn config_panel(ui: &mut Ui, state: &mut State) {
                         return KeyRow {
                             value: key.clone(),
                             title: String::from("Користувацький"),
+                            copied: false,
                         };
                     })
                     .collect();
