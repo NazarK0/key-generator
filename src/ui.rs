@@ -1,9 +1,6 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // hide console window on Windows in release
-use crate::key::{Key, KeyType};
 use eframe::egui;
 
-use self::key_types::{KEY_TYPES};
-use self::key_row::{KeyRow};
 use self::state::State;
 use self::widgets::config_panel;
 
