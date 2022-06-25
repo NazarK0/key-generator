@@ -1,5 +1,6 @@
-#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // hide console window on Windows in release
-use eframe::egui;
+#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] 
+// hide console window on Windows in release
+use eframe::{egui};
 
 use self::state::State;
 use self::widgets::config_panel;
@@ -10,7 +11,17 @@ mod state;
 mod widgets;
 
 pub fn init() {
-    let options = eframe::NativeOptions::default();
+    let icon = image::open("./res/images/key.png").expect("Failed to open icon path").to_rgba8();
+    let (icon_width, icon_height) = icon.dimensions();
+    let options = eframe::NativeOptions {
+        icon_data: Some(eframe::IconData {
+            rgba: icon.into_raw(),
+            width: icon_width,
+            height: icon_height,
+        }),
+        min_window_size:Some(egui::Vec2{x:300f32, y: 300f32 }),
+        ..Default::default()
+    };
     eframe::run_native(
         "Генератор ключів",
         options,

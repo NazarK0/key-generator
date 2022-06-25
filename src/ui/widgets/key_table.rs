@@ -26,7 +26,7 @@ pub fn keys_table(ui: &mut Ui, keys_list: &mut Vec<KeyRow>) {
                         ui.output().copied_text = String::from(&data.value);
 
                         if !data.copied {
-                          data.copied = true;
+                            data.copied = true;
                         }
                     };
 
