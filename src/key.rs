@@ -54,26 +54,25 @@ fn generate_custom_key(chars: &str, len: u8) -> String {
     let mut hash = String::with_capacity(chars.len());
 
     for _ in 0..len {
-        hash.push(hasher(chars).unwrap());
+        hash.push(hasher(chars))
     }
 
     hash
 }
 
-fn hasher(alphabet: &str) -> Result<char, &str> {
+fn hasher(alphabet: &str) -> char {
     let alphabet_length = alphabet.chars().count();
     let mut rng = rand::thread_rng();
     let random_idx = rng.gen_range(0..alphabet_length);
 
-    for ch in alphabet.char_indices() {
-        let char_idx = ch.0;
+    let mut chars_vec = Vec::with_capacity(alphabet.chars().count());
 
-        if char_idx == random_idx {
-            return Ok(ch.1);
-        } else {
-            continue;
-        }
+    for ch in alphabet.chars() {
+        chars_vec.push(ch);
     }
 
-    Err("hasher function is broken!")
+    match chars_vec.get(random_idx) {
+        Some(ch) =>return *ch,
+        None => panic!("Hasher is broken!"),
+    }
 }
