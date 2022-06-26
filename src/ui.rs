@@ -11,7 +11,7 @@ mod state;
 mod widgets;
 
 pub fn init() {
-    let icon = image::open("./res/images/key.png").expect("Failed to open icon path").to_rgba8();
+    let icon = image::open("src/res/images/key2.png").expect("Failed to open icon path").to_rgba8();
     let (icon_width, icon_height) = icon.dimensions();
     let options = eframe::NativeOptions {
         icon_data: Some(eframe::IconData {
