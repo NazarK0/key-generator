@@ -16,6 +16,7 @@ pub fn config_panel(ui: &mut Ui, state: &mut State) {
                 ui.selectable_value(&mut state.key_type_id, 1, KEY_TYPES.get(1).unwrap().title);
             });
 
+        ui.label("Кількість:");
         ui.add(egui::Slider::new(&mut state.count, 1..=100));
 
         if ui.button("+1").clicked() {
@@ -95,8 +96,9 @@ pub fn config_panel(ui: &mut Ui, state: &mut State) {
             });
 
             ui.horizontal(|ui| {
-                ui.label("Кількість:");
+                ui.label("Довжина ключа:");
                 ui.add(egui::Slider::new(&mut state.key_length, 4..=255));
+                ui.label("символів.");
             });
         });
     }
@@ -120,5 +122,3 @@ fn delete_duplicates(source: &str) -> String {
 
     result_string
 }
-
-

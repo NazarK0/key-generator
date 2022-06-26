@@ -72,7 +72,7 @@ fn hasher(alphabet: &str) -> char {
     }
 
     match chars_vec.get(random_idx) {
-        Some(ch) =>return *ch,
+        Some(ch) => return *ch,
         None => panic!("Hasher is broken!"),
     }
 }

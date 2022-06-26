@@ -3,8 +3,7 @@ use eframe::egui::{self, Ui};
 
 pub fn keys_table(ui: &mut Ui, keys_list: &mut Vec<KeyRow>) {
     egui::ScrollArea::vertical()
-        .auto_shrink([false, true])
-        .hscroll(false)
+        .auto_shrink([false, false])
         .show(ui, |ui| {
             egui::Grid::new("key-grid").show(ui, |ui| {
                 ui.label("№ з/п");
