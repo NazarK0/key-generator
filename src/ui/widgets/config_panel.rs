@@ -86,7 +86,7 @@ pub fn config_panel(ui: &mut Ui, state: &mut State) {
                 let response = ui.add(egui::TextEdit::singleline(&mut state.key_alphabet));
 
                 if response.changed() {
-                    delete_duplicates(&mut state.key_alphabet);
+                    state.key_alphabet = delete_duplicates(&state.key_alphabet);
                 }
 
                 if response.lost_focus() && ui.input().key_pressed(egui::Key::Enter) {
@@ -102,44 +102,23 @@ pub fn config_panel(ui: &mut Ui, state: &mut State) {
     }
 }
 
-fn find_duplicate_char_ids(src: &String) -> Vec<usize> {
-    let alphabet_length = src.chars().count();
-    let source_chars = src
-        .chars()
-        // skip last character
-        .take(alphabet_length - 1)
-        .enumerate();
+fn delete_duplicates(source: &str) -> String {
+    let mut chars_vec = Vec::with_capacity(source.chars().count());
 
-    let mut duplicate_indexes = Vec::<usize>::new();
-
-    for source_data in source_chars {
-        let source_idx = source_data.0;
-        let source_char = source_data.1;
-
-        let inspected_string = src.chars().skip(source_idx + 1).enumerate();
-
-        for insp_data in inspected_string {
-            let inspected_idx = insp_data.0;
-            let inspected_char = insp_data.1;
-
-            if source_char == inspected_char {
-                duplicate_indexes.push(inspected_idx + 1 + source_idx);
-            }
-        }
+    for ch in source.chars() {
+        chars_vec.push(ch);
     }
 
-    duplicate_indexes
-}
+    chars_vec.sort();
+    chars_vec.dedup();
 
-fn delete_duplicates(src: &mut String) {
-     let duplicate_indexes = find_duplicate_char_ids(src);
+    let mut result_string = String::new();
 
-                     for data in duplicate_indexes.iter().enumerate() {
-                        let idx = data.0;
-                        let duplicate_idx = data.1;
+    for ch in chars_vec.iter() {
+        result_string.push(*ch);
+    }
 
-                        src.remove(duplicate_idx - idx);
-                     }
+    result_string
 }
 
 
