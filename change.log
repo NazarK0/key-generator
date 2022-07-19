@@ -1,0 +1,4 @@
+changes in 1.10.17
+
+- add buttons for increment and decrement key length in custom key
+- improove key alphabet logic
